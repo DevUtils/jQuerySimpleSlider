@@ -144,8 +144,8 @@
 		}
 		else
 		{
-			$('.simpleSlider.' + p_ids + ' .caption').animate( {'bottom': -36}, 250 );
-			$('.simpleSlider.' + p_ids + ' .bgcaption').animate( {'bottom': -36}, 250 );
+			$('.simpleSlider.' + p_ids + ' .caption').animate( {'bottom': -30}, 250 );
+			$('.simpleSlider.' + p_ids + ' .bgcaption').animate( {'bottom': -30}, 250 );
 		}
 	}
 
@@ -205,12 +205,12 @@
 		;
 
 		$bc
-			.attr('style', 'position: absolute; bottom: -36px; height: 15px; color: white; padding: 10px;background-color: #000; opacity: 0.5; left: 0px;')
+			.attr('style', 'position: absolute; bottom: -30px; height: 30px; color: white; background-color: #000; opacity: 0.5; left: 0px;')
 			.css('width', comp.options.width)
 		;
 
 		$cp
-			.attr('style', 'position: absolute; height: 15px; bottom: -36px; padding: 10px; color: #FFF')
+			.attr('style', 'position: absolute; height: 30px; bottom: -30px; color: #FFF; line-height: 30px; padding-left: 10px;')
 			.css('width', comp.options.width)
 		;
 
@@ -278,8 +278,8 @@
 			function()
 			{
 				$(this).find('.arrows').parent().find('.arrows').animate( {'opacity': 0} );
-				$(this).find('.caption').animate( {'bottom': -36}, 250 );
-				$(this).find('.bgcaption').animate( {'bottom': -36}, 250 );
+				$(this).find('.caption').animate( {'bottom': -30}, 250 );
+				$(this).find('.bgcaption').animate( {'bottom': -30}, 250 );
 			}
 		);
 
