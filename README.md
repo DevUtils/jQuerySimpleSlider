@@ -17,6 +17,16 @@ Include script *after* the jQuery library (unless you are packaging scripts some
 
 Create simple slider:
 
+```html
+<div id="my-slider-1">
+	<ul>
+		<li title="Texto da legenda 1"><img src="img/img1.jpg"></li>
+		<li title="Texto da legenda 2"><img src="img/img2.jpg"></li>
+		<li title="Texto da legenda 3"><img src="img/img3.jpg"></li>
+	</ul>
+</div>
+```
+
 ```javascript
 $('#my-slider-1').simpleSlider
 (
