@@ -3,12 +3,7 @@
 	var defaults =
 	{
 		width       : 800,
-		height      : 300,
-		loop        : false,
-		autoplay    : false,
-		delay       : 0,		// Delay on first play
-		inverted    : false,	// false: forward, true: backward
-		velocity    : 500,
+		height      : 300 
 	};
 	var objects = [];
 
@@ -23,23 +18,8 @@
 				$.fn.simpleSlider.process($(this), opts);
 			});
 		},
-		first      : function()      { return this.each(function() { $.fn.simpleSlider.first(this); }); },
 		previous   : function()      { return this.each(function() { $.fn.simpleSlider.previous(this); }); },
-		play       : function()      { return this.each(function() { $.fn.simpleSlider.play(this); }); },
-		delay_play : function(p_arg) { return this.each(function() { $.fn.simpleSlider.delay_play(this, p_arg); }); },
-		pause      : function()      { return this.each(function() { $.fn.simpleSlider.pause(this); }); },
-		resume     : function()      { return this.each(function() { $.fn.simpleSlider.resume(this); }); },
-		stop       : function()      { return this.each(function() { $.fn.simpleSlider.stop(this); }); },
-		next       : function()      { return this.each(function() { $.fn.simpleSlider.next(this); }); },
-		goto       : function(p_arg) { return this.each(function() { $.fn.simpleSlider.goto(this, p_arg); }); },
-		restart    : function()      { return this.each(function() { $.fn.simpleSlider.restart(this); }); },
-		refresh    : function()      { return this.each(function() { $.fn.simpleSlider.refresh(this); }); },
-		last       : function()      { return this.each(function() { $.fn.simpleSlider.last(this); }); },
-		velocity   : function(p_arg) { return this.each(function() { $.fn.simpleSlider.velocity(this, p_arg); }); },
-		loop       : function(p_arg) { return this.each(function() { $.fn.simpleSlider.loop(this, p_arg); }); },
-		invert     : function()      { return this.each(function() { $.fn.simpleSlider.invert(this); }); },
-		delay      : function(p_arg) { return this.each(function() { $.fn.simpleSlider.delay(this, p_arg); }); },
-		attach     : function(p1, p2){ return this.each(function() { $.fn.simpleSlider.attach(this, p1, p2); }); },
+		next       : function()      { return this.each(function() { $.fn.simpleSlider.next(this); }); } 
 	};
 
 	$.fn.simpleSlider = function(methodOrOptions)
@@ -70,139 +50,6 @@
 		return text;
 	};
 
-	$.fn.simpleSlider.loop = function(p_arg, p_loop)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		objects[ids].options.loop = p_loop;
-		$.fn.simpleSlider.refresh(ids);
-	}
-
-	$.fn.simpleSlider.delay = function(p_arg, p_delay)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		objects[ids].options.delay = p_delay;
-		$.fn.simpleSlider.refresh(ids);
-	}
-
-	$.fn.simpleSlider.invert = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		objects[ids].options.inverted = (!objects[ids].options.inverted);
-		if (objects[ids].timer != null)
-		{
-			$.fn.simpleSlider.refresh(ids);
-		}
-	}
-
-	$.fn.simpleSlider.velocity = function(p_arg, p_velocity)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		objects[ids].options.velocity = p_velocity;
-		if (objects[ids].timer != null)
-		{
-			$.fn.simpleSlider.refresh(ids);
-		}
-	}
-
-	$.fn.simpleSlider.delay_play = function(p_arg, p_miliseconds)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		setTimeout(function() { objects[ids].options.delay = 0; $.fn.simpleSlider.play(ids); }, p_miliseconds);
-	}
-
-	$.fn.simpleSlider.play = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids === undefined) { return; }
-
-		if (objects[ids].options.delay > 0)
-		{
-			return $.fn.simpleSlider.delay_play(ids, objects[ids].options.delay);
-		}
-
-		if (objects[ids].timer != null)
-		{
-			clearInterval(objects[ids].timer);
-		}
-
-		$.fn.simpleSlider.first(ids);
-		objects[ids].timer = setInterval
-		(
-			function()
-			{
-				$.fn.simpleSlider.next(ids);
-			},
-			objects[ids].options.velocity
-		);
-	}
-
-	$.fn.simpleSlider.pause = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids == undefined) { return; }
-		if (objects[ids].timer != null)
-		{
-			clearInterval(objects[ids].timer);
-		}
-	}
-
-	$.fn.simpleSlider.stop = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids == undefined) { return; }
-		if (objects[ids].timer != null)
-		{
-			clearInterval(objects[ids].timer);
-		}
-	}
-
-	$.fn.simpleSlider.resume = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids == undefined) { return; }
-		if (objects[ids].timer != null)
-		{
-			clearInterval(objects[ids].timer);
-		}
-
-		objects[ids].timer = setInterval
-		(
-			function()
-			{
-				$.fn.simpleSlider.next(ids);
-			},
-			objects[ids].options.velocity
-		);
-	}
-
-	$.fn.simpleSlider.refresh = function(p_arg)
-	{
-		$.fn.simpleSlider.pause(p_arg);
-		$.fn.simpleSlider.resume(p_arg);
-	}
-
-	$.fn.simpleSlider.restart = function(p_arg)
-	{
-		$.fn.simpleSlider.stop(p_arg);
-		$.fn.simpleSlider.play(p_arg);
-	}
-
-	$.fn.simpleSlider.goto = function(p_arg, p_frame)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids == undefined) { return; }
-		objects[ids].frame = (p_frame - 1);
-		$.fn.simpleSlider.updateFrame(ids);
-	}
-	
-	$.fn.simpleSlider.first = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids == undefined) { return; }
-		objects[ids].frame = (!objects[ids].options.inverted) ? 0 : objects[ids].options.frame_count-1;
-		$.fn.simpleSlider.updateFrame(ids);
-	}
-	
 	$.fn.simpleSlider._get_ids = function(p_arg)
 	{
 		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
@@ -302,37 +149,6 @@
 		}
 	}
 
-	$.fn.simpleSlider._onComplete = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (objects[ids].options.onComplete !== null)
-		{
-			objects[ids].options.onComplete.call(this, objects[ids]);
-		}
-	}
-
-	$.fn.simpleSlider.last = function(p_arg)
-	{
-		var ids = (typeof(p_arg) == 'object') ? $(p_arg).attr('data-sprite-ids') : p_arg;
-		if (ids == undefined) { return; }
-		objects[ids].frame = (!objects[ids].options.inverted) ? objects[ids].options.frame_count-1 : 0;
-		$.fn.simpleSlider.updateFrame(ids);
-	}
-
-	$.fn.simpleSlider.updateFrame = function(p_ids)
-	{
-		var pos = (objects[p_ids].frame * objects[p_ids].image.frame_size) * -1;
-		switch(objects[p_ids].direction)
-		{
-			case 'h':
-				objects[p_ids].element.css('background-position', pos + 'px 0px');
-			break;
-			case 'v':
-				objects[p_ids].element.css('background-position', '0px ' + pos + 'px');
-			break;
-		}
-	};
-	
 	$.fn.simpleSlider.process = function(p_elem, p_options)
 	{
 		var ids = $.fn.simpleSlider.makeId();
@@ -486,15 +302,6 @@
 				$('.simpleSlider.' + ids).simpleSlider('next');
 			}
 		);
-
-		//if (objects[ids].options.autoplay)
-		//{
-		//	$.fn.simpleSlider.play(ids);
-		//}
 	};
 
 })( jQuery );
-
-$(document).ready(function() {
-
-});
