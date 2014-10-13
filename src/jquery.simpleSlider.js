@@ -7,7 +7,11 @@
 		arrows : 
 		{
 			autohide : false
-		}
+		},
+		captions:
+		{
+			autohide : false
+		},
 	};
 	var objects = [];
 
@@ -174,7 +178,7 @@
 
 		var $dv = $('.simpleSlider.' + ids);
 
-		$('<div class="vitrine"><span class="arrows arrow-left"></span><span class="arrows arrow-right"></span><span class="bgcaption"></span><span class="caption">Legenda do Conteúdo</span></div>').prependTo($dv);
+		$('<div class="vitrine"><span class="arrows arrow-left"></span><span class="arrows arrow-right"></span><span class="bgcaption"></span><span class="caption">&nbsp;</span></div>').prependTo($dv);
 
 		var $vt = $('.simpleSlider.' + ids + ' .vitrine');
 		var $bc = $('.simpleSlider.' + ids + ' .vitrine .bgcaption');
@@ -218,14 +222,29 @@
 		;
 
 		$bc
-			.attr('style', 'position: absolute; bottom: -30px; height: 30px; color: white; background-color: #000; opacity: 0.5; left: 0px;')
+			.attr('style', 'position: absolute; height: 30px; color: white; background-color: #000; opacity: 0.5; left: 0px;')
 			.css('width', comp.options.width)
 		;
 
 		$cp
-			.attr('style', 'position: absolute; height: 30px; bottom: -30px; color: #FFF; line-height: 30px; padding-left: 10px;')
+			.attr('style', 'position: absolute; height: 30px; color: #FFF; line-height: 30px; padding-left: 10px;')
 			.css('width', comp.options.width)
 		;
+
+		if (comp.options.captions.autohide)
+		{
+			$bc.css('bottom', '-30px').addClass('autohide');
+			$cp.css('bottom', '-30px').addClass('autohide');
+		}
+		else
+		{
+			$bc
+				.css('bottom', '0px')
+			;
+			$cp
+				.css('bottom', '0px')
+			;
+		}
 
 		$ul
 			.css('backgroundColor', 'gray')
@@ -268,6 +287,8 @@
 		$('.simpleSlider.' + ids + ' ul li:eq(1)').css('backgroundColor', 'red');
 		$('.simpleSlider.' + ids + ' ul li:eq(2)').css('backgroundColor', 'cyan');
 
+		$.fn.simpleSlider._updateCaption(ids);
+
 		$(document).on
 		(
 			'mouseenter',
@@ -278,8 +299,12 @@
 				var title = $(this).next().find('li.slide-active').attr('title');
 				if ( (title != '') && (title != undefined) )
 				{
-					$(this).find('.caption').html(title).animate( {'bottom': 0}, 250 );
-					$(this).find('.bgcaption').animate( {'bottom': 0}, 250 );
+					$(this).find('.caption').html(title);
+					$(this).find('.caption').hasClass('autohide')
+					{
+						$(this).find('.caption').animate( {'bottom': 0}, 250 );
+						$(this).find('.bgcaption').animate( {'bottom': 0}, 250 );
+					}
 				}
 			}
 		);
@@ -291,8 +316,11 @@
 			function()
 			{
 				$(this).find('.arrows.autohide').parent().find('.arrows').animate( {'opacity': 0} );
-				$(this).find('.caption').animate( {'bottom': -30}, 250 );
-				$(this).find('.bgcaption').animate( {'bottom': -30}, 250 );
+				if ($(this).find('.caption').hasClass('autohide'))
+				{
+					$(this).find('.caption').animate( {'bottom': -30}, 250 );
+					$(this).find('.bgcaption').animate( {'bottom': -30}, 250 );
+				}
 			}
 		);
 
