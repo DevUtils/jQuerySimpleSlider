@@ -4,6 +4,7 @@
 	{
 		width  : 800,
 		height : 300,
+		fit_width : false,
 		arrows : 
 		{
 			autohide : false
@@ -73,17 +74,17 @@
 		if ($('.simpleSlider.' + ids + ' ul li:first.slide-active').length > 0)
 		{
 			$('.simpleSlider.' + ids + ' ul li:last').detach().prependTo( $('.simpleSlider.' + ids + ' ul') );
-			$('.simpleSlider.' + ids + ' ul').css('marginLeft', '-=' + objects[ids].options.width + 'px');
+			$('.simpleSlider.' + ids + ' ul').css('marginLeft', '-=' + objects[ids].options.get_width() + 'px');
 
 			$('.simpleSlider.' + ids + ' ul').animate
 			(
-				{'margin-left': '+=' + objects[ids].options.width + 'px'},
+				{'margin-left': '+=' + objects[ids].options.get_width() + 'px'},
 				'fast',
 				function()
 				{
 					$('.simpleSlider.' + ids + ' ul li:first').detach().appendTo( $('.simpleSlider.' + ids + ' ul') );
 					$('.simpleSlider.' + ids + ' ul').css('marginLeft', '0px');
-					$('.simpleSlider.' + ids + ' ul').css('marginLeft', '-' + ( objects[ids].options.width * ($('.simpleSlider.' + ids + ' ul li').length-1) ) + 'px');
+					$('.simpleSlider.' + ids + ' ul').css('marginLeft', '-' + ( objects[ids].options.get_width() * ($('.simpleSlider.' + ids + ' ul li').length-1) ) + 'px');
 					$('.simpleSlider.' + ids + ' ul li.slide-active').removeClass('slide-active');
 					$('.simpleSlider.' + ids + ' ul li:last').addClass('slide-active');
 					$.fn.simpleSlider._updateCaption(ids);
@@ -92,7 +93,7 @@
 			return;
 		}
 
-		$('.simpleSlider.' + ids + ' ul').animate({'margin-left': '+=' + objects[ids].options.width + 'px'}, 'fast');
+		$('.simpleSlider.' + ids + ' ul').animate({'margin-left': '+=' + objects[ids].options.get_width() + 'px'}, 'fast');
 		var index = $('.simpleSlider.' + ids + ' ul li.slide-active').index();
 		$('.simpleSlider.' + ids + ' ul li.slide-active').removeClass('slide-active');
 		$('.simpleSlider.' + ids + ' ul li:eq(' + (index-1) + ')').addClass('slide-active');
@@ -107,11 +108,11 @@
 		if ($('.simpleSlider.' + ids + ' ul li:last.slide-active').length > 0)
 		{
 			$('.simpleSlider.' + ids + ' ul li:first').detach().appendTo( $('.simpleSlider.' + ids + ' ul') );
-			$('.simpleSlider.' + ids + ' ul').css('marginLeft', '+=' + objects[ids].options.width + 'px');
+			$('.simpleSlider.' + ids + ' ul').css('marginLeft', '+=' + objects[ids].options.get_width() + 'px');
 
 			$('.simpleSlider.' + ids + ' ul').animate
 			(
-				{'margin-left': '-=' + objects[ids].options.width + 'px'},
+				{'margin-left': '-=' + objects[ids].options.get_width() + 'px'},
 				'fast',
 				function()
 				{
@@ -129,7 +130,7 @@
 
 		$('.simpleSlider.' + ids + ' ul').animate
 		(
-			{'margin-left': '-=' + objects[ids].options.width + 'px'},
+			{'margin-left': '-=' + objects[ids].options.get_width() + 'px'},
 			'fast',
 			function()
 			{
@@ -167,6 +168,10 @@
 		var comp = {};
 		comp.element = p_elem;
 		comp.options = p_options;
+		comp.options.get_width = function()
+		{
+			return (comp.options.fit_width) ? $(comp.element).parent().width() : comp.options.width;
+		}
 		comp.direction = '';
 		comp.timer = null;
 
@@ -206,16 +211,24 @@
 		}
 
 		$dv
-			.css('margin', '0 auto')
 			.css('position', 'relative')
 			.css('backgroundColor', 'silver')
-			.css('width', comp.options.width)
+			.css('width', comp.options.get_width())
 			.css('height', comp.options.height)
 			.css('overflow', 'hidden')
 		;
 
+		if (comp.options.fit_width)
+		{
+			$dv.addClass('fit-width');
+		}
+		else
+		{
+			$dv.css('margin', '0 auto')
+		}
+
 		$vt
-			.css('width', comp.options.width)
+			.css('width', comp.options.get_width())
 			.css('height', comp.options.height)
 			.css('background-color', 'transparent')
 			.css('position', 'absolute')
@@ -223,12 +236,12 @@
 
 		$bc
 			.attr('style', 'position: absolute; height: 30px; color: white; background-color: #000; opacity: 0.5; left: 0px;')
-			.css('width', comp.options.width)
+			.css('width', comp.options.get_width())
 		;
 
 		$cp
 			.attr('style', 'position: absolute; height: 30px; color: #FFF; line-height: 30px; padding-left: 10px;')
-			.css('width', comp.options.width)
+			.css('width', comp.options.get_width())
 		;
 
 		if (comp.options.captions.autohide)
@@ -248,7 +261,7 @@
 
 		$ul
 			.css('backgroundColor', 'gray')
-			.css('width', ($li.length + 1) * comp.options.width )
+			.css('width', ($li.length + 1) * comp.options.get_width() )
 			.css('height', comp.options.height)
 			.css('list-style', 'none')
 			.css('margin-top', 0)
@@ -259,7 +272,7 @@
 		;
 
 		$li
-			.css('width', comp.options.width)
+			.css('width', comp.options.get_width())
 			.css('height', comp.options.height)
 			.css('list-style', 'none')
 			.css('float', 'left')
@@ -276,18 +289,16 @@
 					var $img = $(this).find('img');
 					if ($img.length > 0)
 					{
-						var $div = $('<div style="background: url(' + $img.attr('src') + '); width: ' + comp.options.width + 'px; height: ' + comp.options.height + 'px; background-position: center center; background-repeat: no-repeat;"></div>')
+						var $div = $('<div style="background: url(' + $img.attr('src') + '); background-size: cover; width: ' + comp.options.get_width() + 'px; height: ' + comp.options.height + 'px; background-position: center center; background-repeat: no-repeat;"></div>')
 						$img.replaceWith($div);
 					}
 				}
 			}
 		);
 
-		$('.simpleSlider.' + ids + ' ul li:eq(0)').css('backgroundColor', 'yellow');
-		$('.simpleSlider.' + ids + ' ul li:eq(1)').css('backgroundColor', 'red');
-		$('.simpleSlider.' + ids + ' ul li:eq(2)').css('backgroundColor', 'cyan');
-
 		$.fn.simpleSlider._updateCaption(ids);
+
+		$(window).resize();
 
 		$(document).on
 		(
@@ -343,6 +354,40 @@
 				$('.simpleSlider.' + ids).simpleSlider('next');
 			}
 		);
+
+		$(window).on
+		(
+			'resize.simpleSlider',
+			function(e)
+			{
+				var window_width = 0;
+				var ids = 'none';
+				$('.simple-slider.fit-width').each
+				(
+					function()
+					{
+						window_width = $(this).parent().width();
+						ids = $(this).attr('data-sprite-ids');
+						$('.simple-slider.fit-width.' + ids + ', .simple-slider.fit-width.' + ids + ' ul li, .simple-slider.fit-width.' + ids + ' .vitrine, .simple-slider.fit-width.' + ids + ' ul li div, .simple-slider.fit-width.' + ids + ' .caption, .simple-slider.fit-width.' + ids + ' .bgcaption')
+							.css('width', window_width)
+						;
+					}
+				);
+
+				$('.simple-slider.fit-width ul').each
+				(
+					function()
+					{
+						window_width = $(this).parent().width();
+						var page_count = $(this).find('li').length;
+						var index = $(this).find('.slide-active').index();
+						$(this).css('width', window_width * page_count).css('margin-left', (window_width * -index));
+					}
+				);
+
+			}
+		);
+
 	};
 
 })( jQuery );
