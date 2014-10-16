@@ -230,13 +230,22 @@
 
 		var $dv = $('.simpleSlider.' + ids);
 
-		$('<div class="vitrine"><span class="arrows arrow-left"></span><span class="arrows arrow-right"></span><span class="bgcaption"></span><span class="caption">&nbsp;</span><ol class="sl-indicators"><li class="active"></li><li></li><li></li></ol></div>').prependTo($dv);
 
 		var $vt = $('.simpleSlider.' + ids + ' .vitrine');
 		var $bc = $('.simpleSlider.' + ids + ' .vitrine .bgcaption');
 		var $cp = $('.simpleSlider.' + ids + ' .vitrine .caption');
 		var $ul = $('.simpleSlider.' + ids + ' ul');
 		var $li = $('.simpleSlider.' + ids + ' ul li');
+		var page_count = $li.length;
+
+		var indicators = '<ol class="sl-indicators"><li class="active"></li>';
+		for(var k = 0; k < page_count-1; k++)
+		{
+			indicators = indicators + '<li></li>';
+		}
+		indicators = indicators + '</ol>';
+
+		$('<div class="vitrine"><span class="arrows arrow-left"></span><span class="arrows arrow-right"></span><span class="bgcaption"></span><span class="caption">&nbsp;</span>' + indicators + '</div>').prependTo($dv);
 
 		$('.simpleSlider.' + ids + ' .vitrine .arrow-left')
 			.attr('style', 'position: absolute; width: 27px; height: 30px; left: 10px; background-repeat: no-repeat; background-position: center top; top: 50%; margin-top: -15px; cursor: pointer;')
