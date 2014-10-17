@@ -3,7 +3,7 @@ jQuerySimpleSlider
 
 A Easy Simple Slider jQuery Plugin
 
-![Screenshot](https://raw.githubusercontent.com/DevUtils/jQuerySimpleSlider/master/screenshot-1.jpg)
+![Screenshot](https://raw.githubusercontent.com/DevUtils/jQuerySimpleSlider/master/screenshot-2.jpg)
 
 ## Installation
 
