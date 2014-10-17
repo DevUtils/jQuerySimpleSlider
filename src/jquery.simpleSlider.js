@@ -4,7 +4,7 @@
 	{
 		width  : 800,
 		height : 300,
-		fit_width : false,
+		responsive : false,
 		arrows : 
 		{
 			autohide : false
@@ -219,7 +219,7 @@
 		comp.options = p_options;
 		comp.options.get_width = function()
 		{
-			return (comp.options.fit_width) ? $(comp.element).parent().width() : comp.options.width;
+			return (comp.options.responsive) ? $(comp.element).parent().width() : comp.options.width;
 		};
 		comp.direction = '';
 		comp.timer = null;
@@ -275,7 +275,7 @@
 			.css('overflow', 'hidden')
 		;
 
-		if (comp.options.fit_width)
+		if (comp.options.responsive)
 		{
 			$dv.addClass('fit-width');
 		}
