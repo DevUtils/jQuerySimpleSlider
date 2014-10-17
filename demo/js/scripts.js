@@ -5,7 +5,7 @@ $(document).ready(function() {
 		{
 			'width'     : 800,
 			'height'    : 300,
-			'fit_width' : true
+			'responsive': true
 		}
 	);
 
@@ -14,7 +14,7 @@ $(document).ready(function() {
 		{
 			'width'     : 400,
 			'height'    : 300,
-			'fit_width' : true,
+			'responsive': true,
 			'arrows'    : { autohide: true },
 			'captions'  : { autohide: true }
 		}
